@@ -1,2 +1,5 @@
 /*.json
 /registrationCodes.py
+/.idea
+/venv
+/__pycache__/
