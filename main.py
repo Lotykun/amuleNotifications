@@ -87,7 +87,7 @@ if __name__ == '__main__':
     username = getpass.getuser()
     file_log_name = x.strftime("%Y-%m-%d_%H-%M-%S") + "_" + "amulenotifications" + ".log"
     # logFile = path + "logs/" + file_log_name
-    logFile = '/home/amule/logs/' + file_log_name
+    logFile = '/tmp/' + file_log_name
     logging.basicConfig(level=logging.INFO, filename=logFile)
 
     logging.info('INIT PROCESS:')
