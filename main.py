@@ -8,6 +8,8 @@ import socket
 import argparse
 import sys
 import pipes
+import logging
+import datetime
 import firebase_admin
 import yaml
 from paramiko import SSHException
@@ -59,6 +61,7 @@ def upload_file_to_host(ip, port, username, password, file_name, source_path, fi
             respuesta['remote_size'] = remote_info.st_size
         except IOError:
             print('copying file')
+            logging.info('copying file')
             sftp.put(source_path, final_path + file_name)
             remote_info = sftp.stat(final_path + file_name)
             respuesta['code'] = 1
@@ -66,9 +69,11 @@ def upload_file_to_host(ip, port, username, password, file_name, source_path, fi
         ssh.close()
     except SSHException as e:
         print(str(e))
+        logging.info(str(e))
         respuesta['code'] = -1
     except NoValidConnectionsError as e:
         print(str(e))
+        logging.info(str(e))
         respuesta['code'] = -1
     return respuesta
 
@@ -77,6 +82,13 @@ def upload_file_to_host(ip, port, username, password, file_name, source_path, fi
 if __name__ == '__main__':
     args = parse_arguments()
     path = os.path.dirname(os.path.abspath(__file__)) + '/'
+    x = datetime.datetime.now()
+    file_log_name = x.strftime("%Y-%m-%d_%H-%M-%S") + "_" + "amulenotifications" + ".log"
+    logFile = path + "logs/" + file_log_name
+    logging.basicConfig(level=logging.INFO, filename=logFile)
+
+    logging.info('INIT PROCESS:')
+    logging.info('ARGS NAME: ' + args.name + 'ARGS FILE_PATH: ' + args.full_path)
 
     with open(path + 'parameters.yml') as file:
         parameters = yaml.load(file, Loader=yaml.FullLoader)
@@ -104,6 +116,7 @@ if __name__ == '__main__':
     )
     response = messaging.send(message)
     print('Successfully sent Download message:', response)
+    logging.info('Successfully sent Download message:' + response)
 
     response = upload_file_to_host(
         parameters['nas_data']['host'],
@@ -133,6 +146,8 @@ if __name__ == '__main__':
         )
         response = messaging.send(message)
         print('Successfully sent Complete message:', response)
+        logging.info('Successfully sent Complete message:' + response)
+    logging.info('END PROCESS:')
 
     # Response is a message ID string.
 
