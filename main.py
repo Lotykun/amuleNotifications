@@ -95,6 +95,7 @@ if __name__ == '__main__':
 
     file_path = args.full_path
     file_path_transformed = file_path.replace("\\", "")
+    logging.info('FILE_PATH_TRANSFORMED: ' + file_path_transformed)
 
     # This registration token comes from the client FCM SDKs.
     registration_token = parameters['registration_tokens']['samsung']
