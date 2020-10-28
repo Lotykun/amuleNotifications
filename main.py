@@ -93,7 +93,7 @@ if __name__ == '__main__':
     message = messaging.Message(
         notification=messaging.Notification(
             title='Descarga Completada',
-            body='File: ' + args.name
+            body='File: ' + file_path
         ),
         android=messaging.AndroidConfig(
             notification=messaging.AndroidNotification(
