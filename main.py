@@ -64,8 +64,8 @@ def upload_file_to_host(ip, port, username, password, file_name, source_path, fi
             respuesta['code'] = 1
             respuesta['remote_size'] = remote_info.st_size
         ssh.close()
-    except SSHException:
-        print("Connection Error")
+    except SSHException as e:
+        print(str(e))
         respuesta['code'] = -1
     except NoValidConnectionsError as e:
         print(str(e))
