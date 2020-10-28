@@ -137,7 +137,7 @@ if __name__ == '__main__':
     if response['code'] != -1 and response['remote_size'] == source_size:
         print('file exists in destination removing from source')
         logging.info('file exists in destination removing from source')
-        # os.remove(file_path_transformed)
+        os.remove(file_path_transformed)
         message = messaging.Message(
             notification=messaging.Notification(
                 title='Descarga Copiada a NAS',
