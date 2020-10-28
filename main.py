@@ -12,6 +12,7 @@ import logging
 import datetime
 import firebase_admin
 import yaml
+import getpass
 from paramiko import SSHException
 from paramiko import SSHClient
 from paramiko.ssh_exception import NoValidConnectionsError
@@ -83,12 +84,15 @@ if __name__ == '__main__':
     args = parse_arguments()
     path = os.path.dirname(os.path.abspath(__file__)) + '/'
     x = datetime.datetime.now()
+    username = getpass.getuser()
     file_log_name = x.strftime("%Y-%m-%d_%H-%M-%S") + "_" + "amulenotifications" + ".log"
-    logFile = path + "logs/" + file_log_name
+    # logFile = path + "logs/" + file_log_name
+    logFile = '/home/amule/logs/' + file_log_name
     logging.basicConfig(level=logging.INFO, filename=logFile)
 
     logging.info('INIT PROCESS:')
     logging.info('ARGS NAME: ' + args.name + 'ARGS FILE_PATH: ' + args.full_path)
+    logging.info('USER: ' + username)
 
     with open(path + 'parameters.yml') as file:
         parameters = yaml.load(file, Loader=yaml.FullLoader)
